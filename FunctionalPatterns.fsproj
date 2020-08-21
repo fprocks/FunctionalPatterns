@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Compile Include="Result.fs" />
+        <Compile Include="ApiAction.fs" />
+        <Compile Include="ApiActionResult.fs" />
+        <Compile Include="Async.fs" />
+        <Compile Include="AsyncResult.fs" />
+        <Compile Include="List.fs" />
+        <Compile Include="Sequence.fs" />
+        <Compile Include="SqlProvider.main.fs" />
+        <Compile Include="Products.fs" />
+        <Compile Include="Product.main.fs" />
+        <Compile Include="Download.fs" />
+        <Compile Include="Program.fs" />
+    </ItemGroup>
+
+</Project>
