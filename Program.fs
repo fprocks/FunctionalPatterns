@@ -8,6 +8,8 @@ module main =
         "http://adobe.com"
         "http://baidu.org"
         "http://cisco.com"
+        "http://dodo.com.au"
+        "http://english.com"        
         ]
 
     let badSites = [
@@ -48,5 +50,5 @@ module main =
         //time 1 "largestPageSizeA_Bad" badRuns
         //run goodSites
 
-        run badSites
+        run goodSites
         0

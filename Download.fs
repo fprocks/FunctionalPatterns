@@ -54,9 +54,15 @@ module Download =
     let largestPageSizeM uris = 
         uris
         |> List.map (System.Uri >> getUriContentSize)
+        |> List.sequenceAsyncResultM
+        |> AsyncResult.map maxContentSize
+        
+    let largestPageSizeA uris = 
+        uris
+        |> List.map (System.Uri >> getUriContentSize)
         |> List.sequenceAsyncResultA
         |> AsyncResult.map maxContentSize
-
+        
     //let largestPageSizeM1 uris = 
     //    uris
     //    |> List.map System.Uri
