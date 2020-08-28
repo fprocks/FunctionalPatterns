@@ -18,7 +18,7 @@ module Download =
     type UriContentSize = 
         UriContentSize of System.Uri * int
 
-    let getUriConent (uri:System.Uri) = 
+    let getUriContent (uri:System.Uri) = 
         async {
             use client = new WebClientWithTimeout(5000<ms>)
             try
@@ -44,7 +44,7 @@ module Download =
             Result.Success uriContentSize
 
     let getUriContentSize uri =
-        getUriConent uri 
+        getUriContent uri 
         |> Async.map (Result.bind makeContentSize)
 
     let maxContentSize list =
