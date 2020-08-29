@@ -51,38 +51,38 @@ module Download =
         let contentSize (UriContentSize (_, len)) = len
         list |> List.maxBy contentSize
 
-    let largestPageSizeM uris = 
+    let largestPageSizeAsyncResultM uris = 
         uris
         |> List.map (System.Uri >> getUriContentSize)
         |> List.sequenceAsyncResultM
         |> AsyncResult.map maxContentSize
         
-    let largestPageSizeA uris = 
+    let largestPageSizeAsyncResultA uris = 
         uris
         |> List.map (System.Uri >> getUriContentSize)
         |> List.sequenceAsyncResultA
         |> AsyncResult.map maxContentSize
         
-    //let largestPageSizeM1 uris = 
-    //    uris
-    //    |> List.map System.Uri
-    //    |> List.map getUriContentSize
-    //    |> List.sequenceAsyncM
-    //    |> Async.map List.sequenceResultM
-    //    |> Async.map (Result.map maxContentSize)
+    let largestPageSizeM1 uris = 
+        uris
+        |> List.map System.Uri
+        |> List.map getUriContentSize
+        |> List.sequenceAsyncM
+        |> Async.map List.sequenceResultM
+        |> Async.map (Result.map maxContentSize)
 
-    //let largestPageSizeA uris = 
-    //    uris
-    //    |> List.map System.Uri
-    //    |> List.map getUriContentSize
-    //    |> List.sequenceAsyncA
-    //    |> Async.map List.sequenceResultA
-    //    |> Async.map (Result.map maxContentSize)
+    let largestPageSizeA1 uris = 
+        uris
+        |> List.map System.Uri
+        |> List.map getUriContentSize
+        |> List.sequenceAsyncA
+        |> Async.map List.sequenceResultA
+        |> Async.map (Result.map maxContentSize)
 
-    //let largestPageSizeA1 uris = 
-    //    uris
-    //    |> List.traverseAsyncA (System.Uri >> getUriContentSize)
-    //    |> Async.map (List.sequenceResultA >> Result.map maxContentSize)
+    let largestPageSizeA2 uris = 
+        uris
+        |> List.traverseAsyncA (System.Uri >> getUriContentSize)
+        |> Async.map (List.sequenceResultA >> Result.map maxContentSize)
 
     let showContentSizeResult result =
         match result with

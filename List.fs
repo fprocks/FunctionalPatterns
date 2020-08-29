@@ -1,7 +1,6 @@
 ﻿namespace FunctionalPatterns
 
 module List =
-
     let traverseAsyncA f list =
         let (<*>) = Async.apply
         let retn = Async.retn
@@ -17,6 +16,7 @@ module List =
     let traverseAsyncM f list = 
         let (>>=) x f = Async.bind f x
         let retn = Async.retn
+        
         let cons head tail = head :: tail
 
         let initState = retn []
@@ -47,6 +47,7 @@ module List =
         let retn = Result.retn
 
         let cons head tail = head :: tail
+        
         let initState = retn []
         let folder head tail = 
             f head >>= (fun h -> 

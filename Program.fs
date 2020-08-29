@@ -13,15 +13,14 @@ module main =
         ]
 
     let badSites = [
-        "http://abc.com.au"
         "http://frankwang0.com/nopage"
         "http://frankwang1.com/nopage"
-        //"http://frankwang2.com/nopage"
+        "http://frankwang2.com/nopage"
         ]
-
+    
     let run sites = 
         sites
-        |> largestPageSizeM
+        |> largestPageSizeAsyncResultA
         |> Async.RunSynchronously
         |> showContentSizeResult
 
@@ -50,5 +49,5 @@ module main =
         //time 1 "largestPageSizeA_Bad" badRuns
         //run goodSites
 
-        run goodSites
+        run badSites
         0
