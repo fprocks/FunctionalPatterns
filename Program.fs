@@ -1,53 +1,41 @@
 ﻿namespace FunctionalPatterns
 
-open Download
+open Products
 
 module main =
 
-    let goodSites = [
-        "http://adobe.com"
-        "http://baidu.org"
-        "http://cisco.com"
-        "http://dodo.com.au"
-        "http://english.com"        
-        ]
+    let showResult result =
+        match result with
+        | Result.Success (productInfoList) ->
+            printfn "SUCCESS: %A" productInfoList
+        | Result.Failure errs ->
+            printfn "FAILURE: %A" errs
 
-    let badSites = [
-        "http://frankwang0.com/nopage"
-        "http://frankwang1.com/nopage"
-        "http://frankwang2.com/nopage"
-        ]
-    
-    let run sites = 
-        sites
-        |> largestPageSizeAsyncResultA
-        |> Async.RunSynchronously
-        |> showContentSizeResult
+    let setupTestData (api:ApiAction.ApiClient) = 
+        api.Set(CustomerId "C1") [ProductId "P1"; ProductId "P2"] |> ignore
+        api.Set(CustomerId "C2") [ProductId "PX"; ProductId "P2"] |> ignore
+
+        api.Set(ProductId "P1") {Name="P1.Name"} |> ignore
+        api.Set(ProductId "P2") {Name="P2.Name"} |> ignore
+
+    let setupAction = ApiAction.ApiAction setupTestData
 
     [<EntryPoint>]
-    let main argv =
-        //let tuples = [Some (1,2);Some (3,4);None;Some (7,8)]
-        //convert tuples |> printf "%A"
+    let main argv =        
+        ApiAction.execute setupAction
 
-        //let tuples = None
-        //tuples |> optionSequenceTuple |> printf "%A"
+//        CustomerId "C1"
+//        |> getPurchaseInfo
+//        |> ApiAction.execute
+//        |> showResult
 
-        //System.Uri ("http://google.com")
-        //|> getUriContentSize
-        //|> Async.RunSynchronously
-        //|> showContentSizeResult
-    
-        //System.Uri ("http://google2.com")
-        //|> getUriContentSize
-        //|> Async.RunSynchronously
-        //|> showContentSizeResult
+        CustomerId "CX"
+        |> getPurchaseInfo
+        |> ApiAction.execute
+        |> showResult
 
-        ////let goodRuns() = run goodSites
-        ////time 1 "largestPageSizeA_Good" goodRuns
-
-        //let badRuns() = run badSites
-        //time 1 "largestPageSizeA_Bad" badRuns
-        //run goodSites
-
-        run badSites
+//        CustomerId "C2"
+//        |> getPurchaseInfo
+//        |> ApiAction.execute
+//        |> showResult
         0

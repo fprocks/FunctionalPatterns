@@ -15,8 +15,8 @@
         <Compile Include="Sequence.fs" />
         <Compile Include="SqlProvider.main.fs" />
         <Compile Include="Products.fs" />
-        <Compile Include="Product.main.fs" />
         <Compile Include="Download.fs" />
+        <Compile Include="Download.main.fs" />
         <Compile Include="Program.fs" />
     </ItemGroup>
 
