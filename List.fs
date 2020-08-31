@@ -88,9 +88,9 @@ module List =
     let sequenceAsyncResultM x = traverseAsyncResultM id x
     let sequenceAsyncResultA x = traverseAsyncResultA id x
    
-    let traverseApiActionResultA f list =
-        let (<*>) = ApiActionResult.apply
-        let retn = ApiActionResult.retn
+    let traverseReaderResultA f list =
+        let (<*>) = ReaderResult.apply
+        let retn = ReaderResult.retn
 
         let cons head tail = head :: tail
         let initState = retn []
@@ -100,10 +100,9 @@ module List =
 
         List.foldBack folder list initState
 
-    // (ProductId -> ApiAction<Result<ProductInfo>>) -> ProductId list -> ApiAction<Result<ProductInfo list>>
-    let traverseApiActionResultM f list =
-        let (>>=) x f = ApiActionResult.bind f x
-        let retn = ApiActionResult.retn
+    let traverseReaderResultM f list =
+        let (>>=) x f = ReaderResult.bind f x
+        let retn = ReaderResult.retn
 
         let cons head tail = head :: tail
 

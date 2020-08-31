@@ -1,10 +1,10 @@
 ﻿namespace FunctionalPatterns
 
-module ApiAction =
+module Reader =
 
-    type ApiClient() =
+    type Environment() =
         static let mutable data = Map.empty<string, obj>
-
+        
         member private this.TryCast<'a> key (value:obj) =
             match value with
             | :? 'a as a ->
@@ -15,7 +15,7 @@ module ApiAction =
 
         member this.Get<'a> (id:obj) = 
             let key = sprintf "%A" id
-            printfn "[API] Get %s" key
+            printfn "[Environment] Get %s" key
             match Map.tryFind key data with
             | Some o ->
                 this.TryCast<'a> key o
@@ -24,7 +24,7 @@ module ApiAction =
 
         member this.Set (id:obj) (value:obj) = 
             let key = sprintf "%A" id
-            printfn "[API] Set %s" key
+            printfn "[Environment] Set %s" key
             if key = "bad" then
                 Result.Failure [sprintf "Bad Key %s" key]
             else
@@ -32,48 +32,48 @@ module ApiAction =
                 Result.Success ()
 
         member this.Open() = 
-            printfn "[API] Opening"
+            printfn "[Environment] Opening"
 
         member this.Close() =
-            printfn "[API] Closing"
+            printfn "[Environment] Closing"
 
         interface System.IDisposable with
             member this.Dispose() =
-                printfn "[API] Disposing"
+                printfn "[Environment] Disposing"
 
-    type ApiAction<'a> = ApiAction of (ApiClient -> 'a)
+    type Reader<'a> = Reader of (Environment -> 'a)
 
-    let run api (ApiAction action) =
-        let resultOfAction = action api
+    let run environment (Reader action) =
+        let resultOfAction = action environment
         resultOfAction
 
     let map f action = 
-        let newAction api = 
-            let x = run api action
+        let newAction environment = 
+            let x = run environment action
             f x
-        ApiAction newAction
+        Reader newAction
 
     let retn x =
-        let newAction api =
+        let newAction environment =
             x
-        ApiAction newAction
+        Reader newAction
 
     let apply fAction xAction =
-        let newAction api = 
-            let f = run api fAction
-            let x = run api xAction
+        let newAction environment = 
+            let f = run environment fAction
+            let x = run environment xAction
             f x
-        ApiAction newAction
+        Reader newAction
 
     let bind f xAction = 
-        let newAction api = 
-            let x = run api xAction
-            run api (f x)
-        ApiAction newAction
+        let newAction environment = 
+            let x = run environment xAction
+            run environment (f x)
+        Reader newAction
 
     let execute action = 
-        use api = new ApiClient()
-        api.Open()
-        let result = run api action
-        api.Close()
+        use environment = new Environment()
+        environment.Open()
+        let result = run environment action
+        environment.Close()
         result

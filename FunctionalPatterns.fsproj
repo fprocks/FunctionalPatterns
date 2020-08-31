@@ -7,8 +7,8 @@
 
     <ItemGroup>
         <Compile Include="Result.fs" />
-        <Compile Include="ApiAction.fs" />
-        <Compile Include="ApiActionResult.fs" />
+        <Compile Include="Reader.fs" />
+        <Compile Include="ReaderResult.fs" />
         <Compile Include="Async.fs" />
         <Compile Include="AsyncResult.fs" />
         <Compile Include="List.fs" />
