@@ -1,6 +1,6 @@
 ﻿namespace FunctionalPatterns
 
-open Reader
+open ApiAction
 
 module Products =
 
@@ -9,15 +9,17 @@ module Products =
     type ProductInfo = {Name:string}
 
     let getPurchaseIds (customerId:CustomerId) =
-        let action (environment:Environment) = 
-            environment.Get<ProductId list> customerId
-        Reader.Reader action
+        let action (apiClient:ApiClient) = 
+            apiClient.Get<ProductId list> customerId
+            
+        ApiAction action
 
     let getProductInfo (productId:ProductId) =
-        let action (environment:Environment) =
-            environment.Get<ProductInfo> productId
-        Reader action
+        let action (apiClient:ApiClient) =
+            apiClient.Get<ProductInfo> productId
+            
+        ApiAction action
 
     let getPurchaseInfo =
         let getProduct = List.traverseReaderResultM getProductInfo
-        getPurchaseIds >> ReaderResult.bind getProduct
+        getPurchaseIds >> ApiActionResult.bind getProduct

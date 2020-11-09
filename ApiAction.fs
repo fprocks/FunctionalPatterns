@@ -1,8 +1,8 @@
 ﻿namespace FunctionalPatterns
 
-module Reader =
+module ApiAction =
 
-    type Environment() =
+    type ApiClient() =
         static let mutable data = Map.empty<string, obj>
         
         member private this.TryCast<'a> key (value:obj) =
@@ -41,39 +41,39 @@ module Reader =
             member this.Dispose() =
                 printfn "[Environment] Disposing"
 
-    type Reader<'a> = Reader of (Environment -> 'a)
+    type ApiAction<'a> = ApiAction of (ApiClient -> 'a)
 
-    let run environment (Reader action) =
-        let resultOfAction = action environment
+    let run apiClient (ApiAction action) =
+        let resultOfAction = action apiClient
         resultOfAction
 
     let map f action = 
         let newAction environment = 
             let x = run environment action
             f x
-        Reader newAction
+        ApiAction newAction
 
     let retn x =
         let newAction environment =
             x
-        Reader newAction
+        ApiAction newAction
 
     let apply fAction xAction =
-        let newAction environment = 
-            let f = run environment fAction
-            let x = run environment xAction
+        let newAction apiClient = 
+            let f = run apiClient fAction
+            let x = run apiClient xAction
             f x
-        Reader newAction
+        ApiAction newAction
 
     let bind f xAction = 
-        let newAction environment = 
-            let x = run environment xAction
-            run environment (f x)
-        Reader newAction
+        let newAction apiClient = 
+            let x = run apiClient xAction
+            run apiClient (f x)
+        ApiAction newAction
 
-    let execute action = 
-        use environment = new Environment()
-        environment.Open()
-        let result = run environment action
-        environment.Close()
+    let execute apiAction = 
+        use apiClient = new ApiClient()
+        apiClient.Open()
+        let result = run apiClient apiAction
+        apiClient.Close()
         result

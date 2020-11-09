@@ -7,17 +7,17 @@
 
     <ItemGroup>
         <Compile Include="Result.fs" />
-        <Compile Include="Reader.fs" />
-        <Compile Include="ReaderResult.fs" />
+        <Compile Include="ApiAction.fs" />
+        <Compile Include="ApiActionResult.fs" />
         <Compile Include="Async.fs" />
         <Compile Include="AsyncResult.fs" />
         <Compile Include="List.fs" />
         <Compile Include="Sequence.fs" />
         <Compile Include="SqlProvider.main.fs" />
         <Compile Include="Products.fs" />
-        <Compile Include="Products.main.fs" />
         <Compile Include="Download.fs" />
         <Compile Include="Download.main.fs" />
+        <Compile Include="Products.main.fs" />
     </ItemGroup>
 
 </Project>
