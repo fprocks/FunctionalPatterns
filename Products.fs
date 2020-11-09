@@ -21,5 +21,5 @@ module Products =
         ApiAction action
 
     let getProducts =
-        let getProducts = List.traverseReaderResultM getProduct
+        let getProducts = List.traverseApiActionResultM getProduct
         getProductIds >> ApiActionResult.bind getProducts
