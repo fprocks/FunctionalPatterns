@@ -1,7 +1,6 @@
 ﻿namespace FunctionalPatterns
 
 open Products
-open ApiAction
 
 module main =
 
@@ -12,31 +11,31 @@ module main =
         | Result.Failure errs ->
             printfn "FAILURE: %A" errs
 
-    let setupData (apiClient:ApiClient) = 
+    let setupData (apiClient:ApiAction.ApiClient) = 
         apiClient.Set(CustomerId "C1") [ProductId "P1"; ProductId "P2"] |> ignore
         apiClient.Set(CustomerId "C2") [ProductId "P1"; ProductId "PX"] |> ignore
 
         apiClient.Set(ProductId "P1") {Name="P1.Name"} |> ignore
         apiClient.Set(ProductId "P2") {Name="P2.Name"} |> ignore
 
-    let setupAction = ApiAction setupData
+    let setupAction = ApiAction.ApiAction setupData
 
     [<EntryPoint>]
     let main argv =        
-        execute setupAction
+        ApiAction.execute setupAction
 
         CustomerId "C1"
-        |> getPurchaseInfo
+        |> getProducts
         |> ApiAction.execute
         |> showResult
 
         CustomerId "CX"
-        |> getPurchaseInfo
+        |> getProducts
         |> ApiAction.execute
         |> showResult
 
         CustomerId "C2"
-        |> getPurchaseInfo
+        |> getProducts
         |> ApiAction.execute
         |> showResult
         0

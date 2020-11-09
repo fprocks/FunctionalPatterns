@@ -15,7 +15,7 @@ module ApiAction =
 
         member this.Get<'a> (id:obj) = 
             let key = sprintf "%A" id
-            printfn "[Environment] Get %s" key
+            printfn "[ApiClient] Get %s" key
             match Map.tryFind key data with
             | Some o ->
                 this.TryCast<'a> key o
@@ -24,7 +24,7 @@ module ApiAction =
 
         member this.Set (id:obj) (value:obj) = 
             let key = sprintf "%A" id
-            printfn "[Environment] Set %s" key
+            printfn "[ApiClient] Set %s" key
             if key = "bad" then
                 Result.Failure [sprintf "Bad Key %s" key]
             else
@@ -32,14 +32,14 @@ module ApiAction =
                 Result.Success ()
 
         member this.Open() = 
-            printfn "[Environment] Opening"
+            printfn "[ApiClient] Opening"
 
         member this.Close() =
-            printfn "[Environment] Closing"
+            printfn "[ApiClient] Closing"
 
         interface System.IDisposable with
             member this.Dispose() =
-                printfn "[Environment] Disposing"
+                printfn "[ApiClient] Disposing"
 
     type ApiAction<'a> = ApiAction of (ApiClient -> 'a)
 
@@ -48,13 +48,13 @@ module ApiAction =
         resultOfAction
 
     let map f action = 
-        let newAction environment = 
-            let x = run environment action
+        let newAction apiClient = 
+            let x = run apiClient action
             f x
         ApiAction newAction
 
     let retn x =
-        let newAction environment =
+        let newAction apiClient =
             x
         ApiAction newAction
 
